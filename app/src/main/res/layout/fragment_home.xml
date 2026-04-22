@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- ── Header row: Greeting + Bell button ── -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvGreeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorPrimary"
+                    tools:text="Good Morning, Champ! 💪" />
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    tools:text="Today, Apr 22, 2026" />
+            </LinearLayout>
+
+            <!-- Bell + Streak stacked vertically on right -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnReminder"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:text=""
+                    app:icon="@android:drawable/ic_lock_idle_alarm"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    style="@style/Widget.Material3.Button.IconButton" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipStreak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="🔥 0 days"
+                    android:textSize="11sp"
+                    android:clickable="false"
+                    app:chipMinHeight="24dp"
+                    app:ensureMinTouchTargetSize="false"
+                    app:chipBackgroundColor="?attr/colorPrimaryContainer" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ── Weekly Ring Card ── -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardWeeklyRing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            style="?attr/materialCardViewElevatedStyle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <com.hari.gymlog.ui.custom.WeeklyRingView
+                    android:id="@+id/weeklyRing"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Weekly Goal"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvWeeklyProgress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="0 of 7 days this week"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ── Workout Card ── -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardWorkout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            style="?attr/materialCardViewElevatedStyle"
+            android:clickable="true"
+            android:focusable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/ic_workout"
+                    android:backgroundTint="?attr/colorPrimary"
+                    android:contentDescription="Workout" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Workout"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvWorkoutSummary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="0 exercises logged"
+                        android:textAppearance="?attr/textAppearanceBodyMedium" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ── Food Card with Macro Bar ── -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardFood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            style="?attr/materialCardViewElevatedStyle"
+            android:clickable="true"
+            android:focusable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/ic_food"
+                        android:backgroundTint="?attr/colorPrimary"
+                        android:contentDescription="Food" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nutrition"
+                            android:textAppearance="?attr/textAppearanceTitleMedium"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvFoodSummary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="0 meals logged"
+                            android:textAppearance="?attr/textAppearanceBodyMedium" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <com.hari.gymlog.ui.custom.MacroBarView
+                    android:id="@+id/macroBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:layout_marginTop="12dp" />
+
+                <LinearLayout
+                    android:id="@+id/llMacroLabels"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvProtein"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="🔴 P: 0g"
+                        android:textAppearance="?attr/textAppearanceLabelSmall" />
+
+                    <TextView
+                        android:id="@+id/tvCarbs"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="🟡 C: 0g"
+                        android:textAppearance="?attr/textAppearanceLabelSmall" />
+
+                    <TextView
+                        android:id="@+id/tvFat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="🟢 F: 0g"
+                        android:textAppearance="?attr/textAppearanceLabelSmall" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ── Activity Card ── -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            style="?attr/materialCardViewElevatedStyle"
+            android:clickable="true"
+            android:focusable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/ic_activity"
+                    android:backgroundTint="?attr/colorPrimary"
+                    android:contentDescription="Activity" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Activity"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvActivitySummary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="0 steps · 0 min active"
+                        android:textAppearance="?attr/textAppearanceBodyMedium" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ── Weight Card ── -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            style="?attr/materialCardViewElevatedStyle"
+            android:clickable="true"
+            android:focusable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/ic_progress"
+                    android:backgroundTint="?attr/colorPrimary"
+                    android:contentDescription="Weight" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Body Weight"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvWeightSummary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="No weight logged yet"
+                        android:textAppearance="?attr/textAppearanceBodyMedium" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    style="?attr/materialCardViewElevatedStyle"
+    android:clickable="true"
+    android:focusable="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvExerciseName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/tvWeight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Bench Press" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipMuscleGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clickable="false"
+            app:chipMinHeight="24dp"
+            app:ensureMinTouchTargetSize="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvExerciseName"
+            tools:text="Chest" />
+
+        <TextView
+            android:id="@+id/tvSetsReps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chipMuscleGroup"
+            tools:text="4 sets • 10 reps" />
+
+        <TextView
+            android:id="@+id/tvDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chipMuscleGroup"
+            tools:text="15 min" />
+
+        <TextView
+            android:id="@+id/tvWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceTitleLarge"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tvExerciseName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvExerciseName"
+            tools:text="60 kg" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

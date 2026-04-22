@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.hari.gymlog.ui.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/workoutFragment"
+        android:name="com.hari.gymlog.ui.workout.WorkoutFragment"
+        android:label="Workout"
+        tools:layout="@layout/fragment_workout" />
+
+    <fragment
+        android:id="@+id/foodFragment"
+        android:name="com.hari.gymlog.ui.food.FoodFragment"
+        android:label="Food"
+        tools:layout="@layout/fragment_food" />
+
+    <fragment
+        android:id="@+id/activityFragment"
+        android:name="com.hari.gymlog.ui.activity.ActivityFragment"
+        android:label="Activity"
+        tools:layout="@layout/fragment_activity" />
+
+    <fragment
+        android:id="@+id/progressFragment"
+        android:name="com.hari.gymlog.ui.progress.ProgressFragment"
+        android:label="Progress"
+        tools:layout="@layout/fragment_progress" />
+
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.hari.gymlog.ui.history.HistoryFragment"
+        android:label="History"
+        tools:layout="@layout/fragment_history" />
+
+    <fragment
+        android:id="@+id/weightFragment"
+        android:name="com.hari.gymlog.ui.weight.WeightFragment"
+        android:label="Weight"
+        tools:layout="@layout/fragment_weight" />
+
+    <fragment
+        android:id="@+id/reminderSettingsFragment"
+        android:name="com.hari.gymlog.reminder.ReminderSettingsFragment"
+        android:label="Reminders"
+        tools:layout="@layout/fragment_reminder_settings" />
+
+</navigation>

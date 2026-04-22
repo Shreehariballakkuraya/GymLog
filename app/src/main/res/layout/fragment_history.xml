@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="History"
+                android:textAppearance="?attr/textAppearanceHeadlineMedium"
+                android:textStyle="bold"
+                android:textColor="?attr/colorPrimary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/calendar_bg"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Daily Detail Section -->
+            <LinearLayout
+                android:id="@+id/llDailyDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="vertical"
+                android:padding="16dp"
+                app:layout_constraintTop_toBottomOf="@id/calendarView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/tvSelectedDateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="Data for Selected Date"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textStyle="bold" />
+
+                <!-- Workout Summary -->
+                <TextView
+                    android:id="@+id/tvHistoryWorkout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="8dp"
+                    android:text="0 Workouts logged"
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    app:drawableStartCompat="@drawable/ic_workout"
+                    app:drawableTint="?attr/colorPrimary" />
+
+                <!-- Food Summary -->
+                <TextView
+                    android:id="@+id/tvHistoryFood"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="8dp"
+                    android:text="0 Meals logged"
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    app:drawableStartCompat="@drawable/ic_food"
+                    app:drawableTint="?attr/colorPrimary" />
+
+                <!-- Activity Summary -->
+                <TextView
+                    android:id="@+id/tvHistoryActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="8dp"
+                    android:text="0 Steps • 0 Active Min"
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    app:drawableStartCompat="@drawable/ic_activity"
+                    app:drawableTint="?attr/colorPrimary" />
+
+                <!-- Weight Summary -->
+                <TextView
+                    android:id="@+id/tvHistoryWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp"
+                    android:drawablePadding="8dp"
+                    android:text="No Weight Recorded"
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    app:drawableStartCompat="@drawable/ic_progress"
+                    app:drawableTint="?attr/colorPrimary" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

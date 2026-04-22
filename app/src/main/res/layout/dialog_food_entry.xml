@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvDialogTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Log Meal"
+            android:textAppearance="?attr/textAppearanceHeadlineSmall"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Meal Type"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            <AutoCompleteTextView
+                android:id="@+id/acMealType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Food Name"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etFoodName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Quantity"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Calories (Optional)"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCalories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Macro Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp"
+            android:weightSum="3">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:hint="Protein (g)"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etProtein"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:hint="Carbs (g)"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCarbs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:hint="Fat (g)"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etFat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Cancel"
+                style="@style/Widget.Material3.Button.TextButton" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

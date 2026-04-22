@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="32dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Exercise Reminders"
+            android:textAppearance="?attr/textAppearanceHeadlineMedium"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="Stay consistent with quick exercise sets"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:id="@+id/tvSubtitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <!-- Enable/Disable Toggle -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardEnable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            style="?attr/materialCardViewElevatedStyle"
+            app:layout_constraintTop_toBottomOf="@id/tvSubtitle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Enable Reminders"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Get notified at set intervals"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchEnable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Settings Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            style="?attr/materialCardViewElevatedStyle"
+            app:layout_constraintTop_toBottomOf="@id/cardEnable">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Exercise Settings"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Exercise Quick-pick (suggestions) -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:hint="Quick-pick or type below"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                    <AutoCompleteTextView
+                        android:id="@+id/acExercise"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Custom name free-type -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:hint="Custom exercise name (optional)"
+                    app:helperText="Leave blank to use the quick-pick above"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCustomName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:imeOptions="actionDone" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- ── Mode Toggle ── -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Exercise Mode"
+                    android:textAppearance="?attr/textAppearanceLabelLarge"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:layout_marginBottom="8dp" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/toggleMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:singleSelection="true"
+                    app:selectionRequired="true">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnModeReps"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="🔢 Reps"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        app:strokeWidth="1dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnModeTime"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="⏱ Hold Timer"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        app:strokeWidth="1dp" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+                <!-- ── REPS section (shown when Reps mode selected) ── -->
+                <LinearLayout
+                    android:id="@+id/layoutRepsSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:hint="Target Reps"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etTargetReps"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:text="10" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:hint="Pace — seconds per rep (e.g. 3)"
+                        app:helperText="Each rep cued by a beep at this interval"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPaceSecs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:text="3" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <!-- ── TIME section (shown when Hold Timer mode selected) ── -->
+                <LinearLayout
+                    android:id="@+id/layoutTimeSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:hint="Hold Duration (seconds)"
+                        app:helperText="e.g. 60 for a 1-minute plank"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etHoldSecs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:text="60" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <!-- Countdown Before Start (shared) -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="4dp"
+                    android:hint="Get-ready Countdown (seconds)"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCountdownSecs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:text="10" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- Interval Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardInterval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            style="?attr/materialCardViewElevatedStyle"
+            app:layout_constraintTop_toBottomOf="@id/cardSettings">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reminder Interval"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Interval Chips -->
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupInterval"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:singleSelection="true"
+                    app:selectionRequired="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip30m"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="30 min"
+                        style="@style/Widget.Material3.Chip.Filter" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip1h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 hour"
+                        android:checked="true"
+                        style="@style/Widget.Material3.Chip.Filter" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip2h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2 hours"
+                        style="@style/Widget.Material3.Chip.Filter" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip3h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3 hours"
+                        style="@style/Widget.Material3.Chip.Filter" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip4h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4 hours"
+                        style="@style/Widget.Material3.Chip.Filter" />
+                </com.google.android.material.chip.ChipGroup>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Save Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveReminder"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"
+            android:text="Save &amp; Schedule Reminders"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/cardInterval"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Status Text -->
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:text=""
+            app:layout_constraintTop_toBottomOf="@id/btnSaveReminder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

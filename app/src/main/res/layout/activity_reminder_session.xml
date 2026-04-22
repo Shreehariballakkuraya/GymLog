@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:fitsSystemWindows="true">
+
+    <!-- ════════════════════════════════════════════════════ -->
+    <!-- SCREEN 1: Confirmation — adjust reps before start   -->
+    <!-- ════════════════════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/layoutConfirmation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="💪"
+            android:textSize="72sp"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/tvReadyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time for Push-ups!"
+            android:textAppearance="?attr/textAppearanceHeadlineMedium"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"
+            android:gravity="center"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Reps adjuster -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="How many reps?"
+            android:textAppearance="?attr/textAppearanceTitleSmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDecRepsConfirm"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:text="−"
+                android:textSize="22sp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                app:cornerRadius="24dp" />
+
+            <TextView
+                android:id="@+id/tvRepsAdjust"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textSize="56sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorPrimary"
+                android:gravity="center" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnIncRepsConfirm"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:text="+"
+                android:textSize="22sp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:cornerRadius="24dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvPaceInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pace: 1 rep every 3 seconds"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="36dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="2">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnNo"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Not Now"
+                style="@style/Widget.Material3.Button.OutlinedButton" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnYes"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Let's Go! 🔥" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ════════════════════════════════════════════════════ -->
+    <!-- SCREEN 2: Get-Ready Countdown                       -->
+    <!-- ════════════════════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/layoutCountdown"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get Ready!"
+            android:textAppearance="?attr/textAppearanceHeadlineMedium"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
+
+        <TextView
+            android:id="@+id/tvCountdownNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:textSize="120sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Exercise starts in..."
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+    </LinearLayout>
+
+    <!-- ════════════════════════════════════════════════════ -->
+    <!-- SCREEN 3: Auto-Rep Guide (no tapping needed)        -->
+    <!-- ════════════════════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/layoutRepCounter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvRepExerciseName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Push-ups"
+            android:textAppearance="?attr/textAppearanceHeadlineSmall"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Status label e.g. "5 reps left" or "Done!" -->
+        <TextView
+            android:id="@+id/tvRepLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 reps left"
+            android:textAppearance="?attr/textAppearanceTitleLarge"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Giant countdown number — the guide -->
+        <TextView
+            android:id="@+id/tvRepCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:textSize="160sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Overall set progress bar -->
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressReps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:trackCornerRadius="8dp" />
+
+        <!-- Per-rep pace bar (fills each rep interval, resets each rep) -->
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressPace"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginBottom="32dp"
+            app:trackColor="#22000000"
+            app:trackCornerRadius="4dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="2">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPauseResume"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="⏸ Pause" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStop"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Stop"
+                style="@style/Widget.Material3.Button.OutlinedButton" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

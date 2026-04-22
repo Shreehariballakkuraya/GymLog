@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Workouts"
+            android:textAppearance="?attr/textAppearanceHeadlineMedium"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="Today"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <!-- Template Buttons Row -->
+        <LinearLayout
+            android:id="@+id/llTemplateButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@id/tvDate">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSaveTemplate"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Save Template"
+                android:textSize="11sp"
+                style="@style/Widget.Material3.Button.TonalButton" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLoadTemplate"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginStart="8dp"
+                android:text="Load Template"
+                android:textSize="11sp"
+                style="@style/Widget.Material3.Button.OutlinedButton" />
+        </LinearLayout>
+
+        <!-- Rest Timer Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardRestTimer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            style="?attr/materialCardViewElevatedStyle"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/llTemplateButtons"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rest Timer"
+                    android:textAppearance="?attr/textAppearanceTitleSmall"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvTimerCountdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="01:00"
+                    android:textAppearance="?attr/textAppearanceDisplaySmall"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorPrimary" />
+
+                <ProgressBar
+                    android:id="@+id/progressTimer"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="8dp"
+                    android:max="100"
+                    android:progress="100" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip30s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="30s"
+                        style="@style/Widget.Material3.Chip.Filter" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip60s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="60s"
+                        android:checked="true"
+                        style="@style/Widget.Material3.Chip.Filter" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip90s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="90s"
+                        style="@style/Widget.Material3.Chip.Filter" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip120s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2m"
+                        style="@style/Widget.Material3.Chip.Filter" />
+                </com.google.android.material.chip.ChipGroup>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnStartTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Start Rest" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvWorkouts"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:paddingBottom="80dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardRestTimer"
+            tools:listitem="@layout/item_workout" />
+
+        <LinearLayout
+            android:id="@+id/emptyView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardRestTimer"
+            tools:visibility="visible">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:alpha="0.5"
+                android:src="@drawable/ic_workout"
+                app:tint="?attr/colorOnSurfaceVariant" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="No workouts logged today"
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabAddWorkout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:text="Add Workout"
+        app:icon="@android:drawable/ic_input_add" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

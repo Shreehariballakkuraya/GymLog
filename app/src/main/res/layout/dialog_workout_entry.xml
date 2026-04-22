@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvDialogTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Log Workout"
+            android:textAppearance="?attr/textAppearanceHeadlineSmall"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Exercise Name"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            <AutoCompleteTextView
+                android:id="@+id/etExerciseName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Muscle Group"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            <AutoCompleteTextView
+                android:id="@+id/acMuscleGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp"
+            android:weightSum="2">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:hint="Sets"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSets"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:hint="Reps"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etReps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp"
+            android:weightSum="2">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:hint="Weight (kg)"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:hint="Duration (min)"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDuration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Cancel"
+                style="@style/Widget.Material3.Button.TextButton" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
