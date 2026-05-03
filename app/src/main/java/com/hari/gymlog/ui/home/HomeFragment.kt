@@ -64,7 +64,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.weightFragment)
         }
         binding.btnReminder.setOnClickListener {
-            findNavController().navigate(R.id.reminderSettingsFragment)
+            findNavController().navigate(R.id.reminderListFragment)
         }
     }
 

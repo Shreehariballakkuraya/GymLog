@@ -14,6 +14,8 @@ import com.hari.gymlog.data.db.entity.FoodEntity
 import com.hari.gymlog.data.db.entity.WeightEntity
 import com.hari.gymlog.data.db.entity.WorkoutEntity
 import com.hari.gymlog.data.db.entity.WorkoutTemplateEntity
+import com.hari.gymlog.data.db.entity.ReminderScheduleEntity
+import com.hari.gymlog.data.db.dao.ReminderScheduleDao
 
 @Database(
     entities = [
@@ -21,9 +23,10 @@ import com.hari.gymlog.data.db.entity.WorkoutTemplateEntity
         FoodEntity::class,
         ActivityEntity::class,
         WeightEntity::class,
-        WorkoutTemplateEntity::class
+        WorkoutTemplateEntity::class,
+        ReminderScheduleEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class GymLogDatabase : RoomDatabase() {
@@ -33,6 +36,7 @@ abstract class GymLogDatabase : RoomDatabase() {
     abstract fun activityDao(): ActivityDao
     abstract fun weightDao(): WeightDao
     abstract fun workoutTemplateDao(): WorkoutTemplateDao
+    abstract fun reminderScheduleDao(): ReminderScheduleDao
 
     companion object {
         @Volatile

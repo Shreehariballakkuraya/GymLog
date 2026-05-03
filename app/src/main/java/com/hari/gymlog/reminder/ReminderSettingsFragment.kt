@@ -13,13 +13,20 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.hari.gymlog.R
+import com.hari.gymlog.data.db.GymLogDatabase
+import com.hari.gymlog.data.db.entity.ReminderScheduleEntity
 import com.hari.gymlog.databinding.FragmentReminderSettingsBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
 class ReminderSettingsFragment : Fragment() {
@@ -27,19 +34,11 @@ class ReminderSettingsFragment : Fragment() {
     private var _binding: FragmentReminderSettingsBinding? = null
     private val binding get() = _binding!!
 
+    private var scheduleId: Long = -1L
+
     companion object {
         private const val PREFS_NAME           = "reminder_prefs"
-        private const val KEY_ENABLED          = "reminder_enabled"
-        private const val KEY_EXERCISE         = "reminder_exercise"
-        private const val KEY_CUSTOM_NAME      = "reminder_custom_name"
-        private const val KEY_CUSTOM_EXERCISES = "reminder_custom_exercises"  // persisted custom list
-        private const val KEY_MODE             = "reminder_mode"
-        private const val KEY_TARGET_REPS      = "reminder_target_reps"
-        private const val KEY_COUNTDOWN        = "reminder_countdown"
-        private const val KEY_PACE_SECS        = "reminder_pace_secs"
-        private const val KEY_HOLD_SECS        = "reminder_hold_secs"
-        private const val KEY_INTERVAL_MINUTES = "reminder_interval_minutes"
-        private const val WORK_TAG             = "exercise_reminder_work"
+        private const val KEY_CUSTOM_EXERCISES = "reminder_custom_exercises"
         const val MODE_REPS = "reps"
         const val MODE_TIME = "time"
     }
@@ -64,10 +63,53 @@ class ReminderSettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        scheduleId = arguments?.getLong("scheduleId", -1L) ?: -1L
+
         setupExerciseDropdown()
         setupModeToggle()
-        loadSavedSettings()
+        setupActiveHoursSlider()
         setupSaveButton()
+
+        if (scheduleId != -1L) {
+            loadScheduleFromDb(scheduleId)
+        } else {
+            // Default setup for new schedule
+            binding.sliderActiveHours.values = listOf(10f, 18f)
+            binding.tvActiveHoursLabel.text = formatTimeRange(10, 18)
+            binding.switchEnable.isChecked = true
+            binding.btnSaveReminder.text = "Create Schedule"
+        }
+    }
+
+    private fun loadScheduleFromDb(id: Long) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val schedule = GymLogDatabase.getDatabase(requireContext()).reminderScheduleDao().getScheduleById(id)
+            withContext(Dispatchers.Main) {
+                schedule?.let { populateUi(it) }
+            }
+        }
+    }
+
+    private fun populateUi(schedule: ReminderScheduleEntity) {
+        binding.switchEnable.isChecked = schedule.isEnabled
+        binding.acExercise.setText(schedule.exerciseName, false)
+        binding.etCustomName.setText(schedule.customName)
+        binding.etTargetReps.setText(schedule.targetReps.toString())
+        binding.etCountdownSecs.setText(schedule.countdownSecs.toString())
+        binding.etPaceSecs.setText(schedule.paceSecs.toString())
+        binding.etHoldSecs.setText(schedule.holdSecs.toString())
+        setIntervalChip(schedule.intervalMinutes)
+
+        binding.sliderActiveHours.values = listOf(schedule.startHour.toFloat(), schedule.endHour.toFloat())
+        binding.tvActiveHoursLabel.text = formatTimeRange(schedule.startHour, schedule.endHour)
+
+        if (schedule.mode == MODE_TIME) {
+            binding.toggleMode.check(R.id.btnModeTime)
+        } else {
+            binding.toggleMode.check(R.id.btnModeReps)
+        }
+
+        binding.btnSaveReminder.text = "Update Schedule"
     }
 
     private fun buildExerciseList(): List<String> {
@@ -97,7 +139,6 @@ class ReminderSettingsFragment : Fragment() {
 
     private fun setupExerciseDropdown() {
         refreshDropdown()
-        // When a preset is picked, clear the custom name field
         binding.acExercise.setOnItemClickListener { _, _, _, _ ->
             binding.etCustomName.text?.clear()
         }
@@ -110,9 +151,7 @@ class ReminderSettingsFragment : Fragment() {
     }
 
     private fun setupModeToggle() {
-        // Select Reps by default
         binding.toggleMode.check(R.id.btnModeReps)
-
         binding.toggleMode.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (!isChecked) return@addOnButtonCheckedListener
             val isTime = checkedId == R.id.btnModeTime
@@ -121,7 +160,30 @@ class ReminderSettingsFragment : Fragment() {
         }
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
+    private fun setupActiveHoursSlider() {
+        binding.sliderActiveHours.addOnChangeListener { slider, _, _ ->
+            val values = slider.values
+            if (values.size >= 2) {
+                val start = values[0].toInt()
+                val end = values[1].toInt()
+                binding.tvActiveHoursLabel.text = formatTimeRange(start, end)
+            }
+        }
+    }
+
+    private fun formatTimeRange(startHour: Int, endHour: Int): String {
+        return "${formatHour(startHour)} - ${formatHour(endHour)}"
+    }
+
+    private fun formatHour(hour: Int): String {
+        val amPm = if (hour < 12 || hour == 24) "AM" else "PM"
+        val displayHour = when {
+            hour == 0 || hour == 24 -> 12
+            hour > 12 -> hour - 12
+            else -> hour
+        }
+        return "$displayHour:00 $amPm"
+    }
 
     private fun getEffectiveExerciseName(): String {
         val custom = binding.etCustomName.text.toString().trim()
@@ -151,30 +213,6 @@ class ReminderSettingsFragment : Fragment() {
         }
     }
 
-    // ── Load / Save ───────────────────────────────────────────────────────────
-
-    private fun loadSavedSettings() {
-        val prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        binding.switchEnable.isChecked = prefs.getBoolean(KEY_ENABLED, false)
-        binding.acExercise.setText(prefs.getString(KEY_EXERCISE, "Push-ups"), false)
-        binding.etCustomName.setText(prefs.getString(KEY_CUSTOM_NAME, ""))
-        binding.etTargetReps.setText(prefs.getInt(KEY_TARGET_REPS, 10).toString())
-        binding.etCountdownSecs.setText(prefs.getInt(KEY_COUNTDOWN, 10).toString())
-        binding.etPaceSecs.setText(prefs.getInt(KEY_PACE_SECS, 3).toString())
-        binding.etHoldSecs.setText(prefs.getInt(KEY_HOLD_SECS, 60).toString())
-        setIntervalChip(prefs.getLong(KEY_INTERVAL_MINUTES, 60L))
-
-        // Restore mode toggle
-        val mode = prefs.getString(KEY_MODE, MODE_REPS)
-        if (mode == MODE_TIME) {
-            binding.toggleMode.check(R.id.btnModeTime)
-        } else {
-            binding.toggleMode.check(R.id.btnModeReps)
-        }
-
-        updateStatusText()
-    }
-
     private fun setupSaveButton() {
         binding.btnSaveReminder.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -191,7 +229,7 @@ class ReminderSettingsFragment : Fragment() {
     }
 
     private fun saveAndSchedule() {
-        val exercise       = getEffectiveExerciseName()
+        val exercise       = binding.acExercise.text.toString().trim()
         val customName     = binding.etCustomName.text.toString().trim()
         val mode           = if (isTimeMode()) MODE_TIME else MODE_REPS
         val targetReps     = binding.etTargetReps.text.toString().toIntOrNull() ?: 10
@@ -201,75 +239,86 @@ class ReminderSettingsFragment : Fragment() {
         val intervalMins   = getIntervalMinutes()
         val enabled        = binding.switchEnable.isChecked
 
-        // If user typed a new custom exercise name, persist it so it appears in the dropdown next time
+        val sliderValues   = binding.sliderActiveHours.values
+        val startHour      = if (sliderValues.size >= 2) sliderValues[0].toInt() else 10
+        val endHour        = if (sliderValues.size >= 2) sliderValues[1].toInt() else 18
+
         if (customName.isNotEmpty()) {
             saveCustomExercise(customName)
             refreshDropdown()
         }
 
-        requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit().apply {
-            putBoolean(KEY_ENABLED, enabled)
-            putString(KEY_EXERCISE, binding.acExercise.text.toString().trim())
-            putString(KEY_CUSTOM_NAME, customName)
-            putString(KEY_MODE, mode)
-            putInt(KEY_TARGET_REPS, targetReps)
-            putInt(KEY_COUNTDOWN, countdown)
-            putInt(KEY_PACE_SECS, paceSecs)
-            putInt(KEY_HOLD_SECS, holdSecs)
-            putLong(KEY_INTERVAL_MINUTES, intervalMins)
-            apply()
+        val entity = ReminderScheduleEntity(
+            id = if (scheduleId != -1L) scheduleId else 0,
+            exerciseName = exercise,
+            customName = customName,
+            mode = mode,
+            targetReps = targetReps,
+            countdownSecs = countdown,
+            paceSecs = paceSecs,
+            holdSecs = holdSecs,
+            intervalMinutes = intervalMins,
+            startHour = startHour,
+            endHour = endHour,
+            isEnabled = enabled
+        )
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            val dao = GymLogDatabase.getDatabase(requireContext()).reminderScheduleDao()
+            val newId = if (scheduleId != -1L) {
+                dao.update(entity)
+                scheduleId
+            } else {
+                dao.insert(entity)
+            }
+
+            val finalEntity = entity.copy(id = newId)
+
+            withContext(Dispatchers.Main) {
+                if (enabled) {
+                    scheduleWorker(finalEntity)
+                    Toast.makeText(requireContext(), "Schedule Saved & Activated 🔔", Toast.LENGTH_SHORT).show()
+                } else {
+                    cancelWorker(newId)
+                    Toast.makeText(requireContext(), "Schedule Saved (Disabled)", Toast.LENGTH_SHORT).show()
+                }
+                findNavController().popBackStack()
+            }
         }
-
-        val workManager = WorkManager.getInstance(requireContext())
-
-        if (enabled) {
-            val inputData = Data.Builder()
-                .putString(ReminderWorker.KEY_EXERCISE, exercise)
-                .putString(ReminderWorker.KEY_MODE, mode)
-                .putInt(ReminderWorker.KEY_TARGET_REPS, targetReps)
-                .putInt(ReminderWorker.KEY_COUNTDOWN_SECS, countdown)
-                .putInt(ReminderWorker.KEY_PACE_SECS, paceSecs)
-                .putInt(ReminderWorker.KEY_HOLD_SECS, holdSecs)
-                .build()
-
-            val actualInterval = maxOf(intervalMins, 15L)
-            val periodicRequest = PeriodicWorkRequestBuilder<ReminderWorker>(actualInterval, TimeUnit.MINUTES)
-                .setInputData(inputData)
-                .addTag(WORK_TAG)
-                .build()
-
-            workManager.enqueueUniquePeriodicWork(WORK_TAG, ExistingPeriodicWorkPolicy.UPDATE, periodicRequest)
-
-            // Fire immediately
-            val immediateRequest = OneTimeWorkRequestBuilder<ReminderWorker>()
-                .setInputData(inputData).build()
-            workManager.enqueue(immediateRequest)
-
-            val modeLabel = if (mode == MODE_TIME) "${holdSecs}s hold" else "$targetReps reps"
-            binding.tvStatus.text = "✅ $exercise · $modeLabel every ${intervalMins}min"
-            Toast.makeText(requireContext(), "Saved! First reminder coming right up 🔔", Toast.LENGTH_SHORT).show()
-        } else {
-            workManager.cancelAllWorkByTag(WORK_TAG)
-            binding.tvStatus.text = "⏸ Reminders are off"
-            Toast.makeText(requireContext(), "Reminders disabled", Toast.LENGTH_SHORT).show()
-        }
-
-        updateStatusText()
     }
 
-    private fun updateStatusText() {
-        val prefs    = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val enabled  = prefs.getBoolean(KEY_ENABLED, false)
-        val exercise = prefs.getString(KEY_EXERCISE, "Push-ups")
-        val mode     = prefs.getString(KEY_MODE, MODE_REPS)
-        val interval = prefs.getLong(KEY_INTERVAL_MINUTES, 60L)
-        val reps     = prefs.getInt(KEY_TARGET_REPS, 10)
-        val hold     = prefs.getInt(KEY_HOLD_SECS, 60)
+    private fun scheduleWorker(schedule: ReminderScheduleEntity) {
+        val workManager = WorkManager.getInstance(requireContext())
+        val inputData = Data.Builder()
+            .putLong(ReminderWorker.KEY_SCHEDULE_ID, schedule.id)
+            .putString(ReminderWorker.KEY_EXERCISE, schedule.customName.ifEmpty { schedule.exerciseName }.ifEmpty { "Push-ups" })
+            .putString(ReminderWorker.KEY_MODE, schedule.mode)
+            .putInt(ReminderWorker.KEY_TARGET_REPS, schedule.targetReps)
+            .putInt(ReminderWorker.KEY_COUNTDOWN_SECS, schedule.countdownSecs)
+            .putInt(ReminderWorker.KEY_PACE_SECS, schedule.paceSecs)
+            .putInt(ReminderWorker.KEY_HOLD_SECS, schedule.holdSecs)
+            .putInt(ReminderWorker.KEY_START_HOUR, schedule.startHour)
+            .putInt(ReminderWorker.KEY_END_HOUR, schedule.endHour)
+            .build()
 
-        binding.tvStatus.text = if (enabled) {
-            val modeLabel = if (mode == MODE_TIME) "${hold}s hold" else "$reps reps"
-            "✅ $exercise · $modeLabel · every ${interval}min"
-        } else "⏸ Reminders are off"
+        val tag = "${ReminderWorker.WORK_TAG_PREFIX}${schedule.id}"
+        val actualInterval = maxOf(schedule.intervalMinutes, 15L)
+        val periodicRequest = PeriodicWorkRequestBuilder<ReminderWorker>(actualInterval, TimeUnit.MINUTES)
+            .setInputData(inputData)
+            .addTag(tag)
+            .build()
+
+        workManager.enqueueUniquePeriodicWork(tag, ExistingPeriodicWorkPolicy.UPDATE, periodicRequest)
+
+        // Fire immediately for testing/feedback
+        val immediateRequest = OneTimeWorkRequestBuilder<ReminderWorker>()
+            .setInputData(inputData).build()
+        workManager.enqueue(immediateRequest)
+    }
+
+    private fun cancelWorker(scheduleId: Long) {
+        val tag = "${ReminderWorker.WORK_TAG_PREFIX}$scheduleId"
+        WorkManager.getInstance(requireContext()).cancelAllWorkByTag(tag)
     }
 
     override fun onDestroyView() {

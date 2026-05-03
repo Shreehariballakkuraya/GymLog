@@ -26,6 +26,10 @@ class ReminderWorker(
         const val KEY_COUNTDOWN_SECS = "countdown_secs"
         const val KEY_PACE_SECS     = "pace_secs"
         const val KEY_HOLD_SECS     = "hold_secs"
+        const val KEY_START_HOUR    = "start_hour"
+        const val KEY_END_HOUR      = "end_hour"
+        const val KEY_SCHEDULE_ID   = "schedule_id"
+        const val WORK_TAG_PREFIX   = "exercise_reminder_work_"
     }
 
     override fun doWork(): Result {
@@ -35,6 +39,14 @@ class ReminderWorker(
         val countdownSecs = inputData.getInt(KEY_COUNTDOWN_SECS, 10)
         val paceSecs      = inputData.getInt(KEY_PACE_SECS, 3)
         val holdSecs      = inputData.getInt(KEY_HOLD_SECS, 60)
+        val startHour     = inputData.getInt(KEY_START_HOUR, 10)
+        val endHour       = inputData.getInt(KEY_END_HOUR, 18)
+
+        val currentHour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
+        if (currentHour < startHour || currentHour >= endHour) {
+            // Outside of active hours, silently succeed without notifying
+            return Result.success()
+        }
 
         createNotificationChannel()
         sendReminderNotification(exerciseName, mode, targetReps, countdownSecs, paceSecs, holdSecs)

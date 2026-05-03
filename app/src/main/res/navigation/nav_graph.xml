@@ -48,9 +48,24 @@
         tools:layout="@layout/fragment_weight" />
 
     <fragment
+        android:id="@+id/reminderListFragment"
+        android:name="com.hari.gymlog.ui.reminder.ReminderListFragment"
+        android:label="Reminders"
+        tools:layout="@layout/fragment_reminder_list">
+        <action
+            android:id="@+id/action_reminderList_to_reminderSettings"
+            app:destination="@id/reminderSettingsFragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/reminderSettingsFragment"
         android:name="com.hari.gymlog.reminder.ReminderSettingsFragment"
-        android:label="Reminders"
-        tools:layout="@layout/fragment_reminder_settings" />
+        android:label="Schedule Settings"
+        tools:layout="@layout/fragment_reminder_settings">
+        <argument
+            android:name="scheduleId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
 
 </navigation>
